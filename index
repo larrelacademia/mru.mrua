@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>MRU i MRUA</title>
+  <!-- 🔹 Important per a que sigui realment responsive al mòbil -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicon (icona de la pestanya) -->
+  <link rel="icon" type="image/png" href="https://i.ibb.co/ZRt0f9HS/imagotip-pestanya.png">
+
+  <!-- Tipografies de marca: Paytone One + Urbanist -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Urbanist:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Paleta inspirada en el manual de marca */
+      --lima: #d5f476;        /* Verd lima - destacats / fons suau */
+      --blanc: #f9f8ef;       /* Blanc cru - targetes */
+      --fucsia: #ff3d78;      /* Fúcsia - accent principal */
+      --jade: #00a874;        /* Verd jade - accent secundari */
+      --text: #000000;        /* Text principal en negre */
+      --text2: #1f2937;       /* Text secundari gris fosc */
+      --danger: #ff3d78;      /* Fúcsia també per errors/avisos */
+      --border: #5c3a93;      /* Morat per a contorns */
+      --lila: #d5bef7;        /* Lila claret */
+      --muted: #6b7280;       /* Text suau peu de pàgina */
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at top left, #ffaac9 0, #d5f476 35%, #d5bef7 70%, #5c3a93 100%);
+      font-family: "Urbanist", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: var(--text);
+      padding: 16px;
+    }
+
+    .card {
+      background: var(--blanc);
+      border-radius: 18px;
+      padding: 20px 24px 24px;
+      max-width: 1180px;
+      width: 100%;
+      box-shadow:
+        0 18px 35px rgba(0, 0, 0, 0.18),
+        0 0 0 2px rgba(0, 0, 0, 0.05);
+      border: 2px solid var(--border);
+    }
+
+    /* 🔹 Logo capçalera */
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .logo-wrap img {
+      max-width: 200px;
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0.9;
+      transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+    }
+    .logo-wrap img:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    /* 🔹 Logo final/imagotip */
+    .logo-footer {
+      margin-top: 1px;
+      margin-bottom: 13px;
+      display: flex;
+      justify-content: center;
+    }
+    .logo-footer img {
+      max-width: 50px;
+      width: 100%;
+      height: auto;
+      display: block;
+      opacity: 0.9;
+      transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+    }
+    .logo-footer img:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+
+    /* 🔹 Peu de pàgina amb línia separadora */
+    .footer {
+      margin-top: 20px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(148, 163, 184, 0.4);
+      padding-top: 10px;
+      min-height: 14px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "Paytone One", system-ui, sans-serif;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+    h1 span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--jade);
+      font-weight: 700;
+      font-size: 1rem;
+      color: #ffffff;
+      box-shadow: 0 0 0 2px #ffffff;
+    }
+
+    .subtitle {
+      margin: 0 0 16px;
+      font-size: 0.95rem;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+
+    /* 🔹 Grid superior: Paràmetres || Equacions */
+    .grid-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 2fr);
+      gap: 22px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 960px) {
+      .grid-main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #00a8741f; /* verd jade molt suau */
+      color: var(--jade);
+      margin-bottom: 8px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+      color: var(--text2);
+      font-weight: 500;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1.5px solid rgba(0, 0, 0, 0.12);
+      background: #ffffff;
+      color: var(--text);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border 0.15s, box-shadow 0.15s, background 0.15s, transform 0.08s;
+    }
+    input[type="number"]:focus {
+      border-color: var(--fucsia);
+      box-shadow: 0 0 0 2px rgba(255, 61, 120, 0.25);
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--fucsia);
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px 16px;
+      align-items: flex-end;
+      margin-bottom: 8px;
+    }
+
+    .equations-box {
+      border-radius: 14px;
+      padding: 12px 14px 10px;
+      background: #ffffff;
+      border: 1.5px solid rgba(0, 0, 0, 0.12);
+      font-size: 0.9rem;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+    }
+    .equations-box h2 {
+      font-size: 0.95rem;
+      margin: 0 0 6px;
+      color: var(--text2);
+      font-weight: 700;
+    }
+    .eq-line {
+      margin: 2px 0;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.88rem;
+      word-wrap: break-word;
+    }
+    .eq-line span.label {
+      color: var(--text2);
+    }
+    .eq-line span.value {
+      color: var(--text);
+    }
+    .eq-line span.emph {
+      color: var(--jade);
+      font-weight: 700;
+    }
+
+    .graphs-pill {
+      margin-bottom: 6px;
+      margin-top: 4px;
+    }
+
+    .graphs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    @media (max-width: 1024px) {
+      .graphs-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .graph-card {
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: #ffffff;
+      border: 1.5px solid rgba(0, 0, 0, 0.12);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .graph-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text2);
+      margin-bottom: 4px;
+    }
+
+    canvas.graph {
+      width: 100%;
+      height: auto;
+      max-height: 320px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: #020617;
+      display: block;
+    }
+
+    .graph-hint {
+      font-size: 0.78rem;
+      color: var(--text2);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border-radius: 999px;
+      border: none;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition:
+        transform 0.08s ease-out,
+        box-shadow 0.12s ease-out,
+        background 0.15s,
+        border 0.15s;
+      font-family: "Urbanist", system-ui, sans-serif;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--fucsia), #ff7ca5);
+      color: #ffffff;
+      box-shadow: none;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 22px rgba(255, 61, 120, 0.46);
+    }
+
+    .btn-ghost {
+      background: #ffffff;
+      color: var(--text2);
+      border: 1.5px solid rgba(0, 0, 0, 0.15);
+    }
+    .btn-ghost:hover {
+      background: #ffaac91f;
+      border-color: var(--fucsia);
+      color: var(--fucsia);
+      transform: translateY(-1px);
+    }
+
+    .sim-controls {
+      margin-top: 14px;
+      border-radius: 14px;
+      padding: 10px 12px 12px;
+      background: #ffffff;
+      border: 1.5px solid rgba(0, 0, 0, 0.12);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+    }
+
+    .sim-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .time-group {
+      min-width: 220px;
+      max-width: 320px;
+    }
+    .time-group label {
+      margin-bottom: 2px;
+      font-size: 0.85rem;
+    }
+
+    .time-slider-block {
+      margin-top: 6px;
+    }
+    .time-slider-block label {
+      margin-bottom: 2px;
+      font-size: 0.85rem;
+    }
+
+    .readouts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .readout-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8rem;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: #d5bef7;
+      color: #000000;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    .readout-pill span.label {
+      color: var(--text2);
+    }
+    .readout-pill span.value {
+      font-weight: 700;
+      color: #000000;
+    }
+
+    .mode-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      border-radius: 999px;
+      background: #d5f476;
+      color: #000000;
+      margin-left: 6px;
+      font-weight: 600;
+    }
+
+    .error {
+      margin-top: 8px;
+      font-size: 0.82rem;
+      color: var(--danger);
+      min-height: 1em;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        align-items: flex-start;
+        padding: 12px;
+      }
+      .card {
+        padding: 16px 14px 18px;
+        border-radius: 14px;
+      }
+      h1 {
+        font-size: 1.25rem;
+        flex-wrap: wrap;
+      }
+      .subtitle {
+        font-size: 0.9rem;
+      }
+      .readout-pill {
+        font-size: 0.78rem;
+      }
+      .footer {
+        flex-direction: column;
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- 🔹 Logo L'Arrel Acadèmia -->
+    <div class="logo-wrap">
+      <a href="https://www.larrelacademia.cat/" target="_blank" rel="noopener noreferrer">
+        <img src="https://i.ibb.co/TDpf3BHr/PRINCIPAL-FUCSIA.png"
+             alt="L'Arrel Acadèmia - Logo principal fúcsia">
+      </a>
+    </div>
+
+    <h1>
+      <span>M</span>
+      Simulador de MRU i MRUA
+    </h1>
+    <p class="subtitle">
+      Introdueix la <strong>posició inicial</strong> <em>x₀</em>, la <strong>velocitat inicial</strong> <em>v₀</em> i la
+      <strong>acceleració</strong> <em>a</em>. El simulador calcula les equacions de
+      <strong>posició</strong>, <strong>velocitat</strong> i <strong>acceleració</strong> i mostra les tres
+      gràfiques amb un punt que es mou en el temps.
+    </p>
+
+    <!-- 🔹 Superior: Paràmetres || Equacions -->
+    <div class="grid-main">
+      <!-- Columna 1: paràmetres -->
+      <div>
+        <div class="pill">
+          ⚙️ Paràmetres del moviment
+        </div>
+
+        <div class="controls-grid">
+          <div>
+            <label>Posició inicial x₀ (m):</label>
+            <input id="x0" type="number" step="any" value="0">
+          </div>
+          <div>
+            <label>Velocitat inicial v₀ (m/s):</label>
+            <input id="v0" type="number" step="any" value="2">
+          </div>
+          <div>
+            <label>Acceleració a (m/s²):</label>
+            <input id="a" type="number" step="any" value="0">
+          </div>
+          <div>
+            <label>Temps total T (s):</label>
+            <input id="tMax" type="number" min="1" max="100" step="0.5" value="10">
+          </div>
+        </div>
+
+        <div id="error" class="error"></div>
+      </div>
+
+      <!-- Columna 2: equacions -->
+      <div>
+        <div class="pill">
+          📐 Equacions del MRU / MRUA
+        </div>
+        <div class="equations-box" id="equations">
+          <h2>En espera de dades…</h2>
+          <p style="margin:4px 0 0; color:var(--text2);">
+            Introdueix els paràmetres del moviment. Es mostraran les equacions de
+            <strong>x(t)</strong>, <strong>v(t)</strong> i <strong>a(t)</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔹 Inferior: Gràfics (amplada completa) -->
+    <div class="pill graphs-pill">
+      📊 Gràfiques del moviment
+    </div>
+
+    <div class="graphs-grid">
+      <div class="graph-card">
+        <div class="graph-title">Posició - temps x(t)</div>
+        <canvas id="xCanvas" class="graph" width="720" height="420"></canvas>
+        <div class="graph-hint">
+          Es representa la posició <em>x(t)</em> en funció del temps.
+        </div>
+      </div>
+      <div class="graph-card">
+        <div class="graph-title">Velocitat - temps v(t)</div>
+        <canvas id="vCanvas" class="graph" width="720" height="420"></canvas>
+        <div class="graph-hint">
+          Es representa la velocitat <em>v(t)</em> en funció del temps.
+        </div>
+      </div>
+      <div class="graph-card">
+        <div class="graph-title">Acceleració - temps a(t)</div>
+        <canvas id="aCanvas" class="graph" width="720" height="420"></canvas>
+        <div class="graph-hint">
+          Es representa l’acceleració <em>a(t)</em> en funció del temps.
+        </div>
+      </div>
+    </div>
+
+    <div class="sim-controls">
+      <div class="sim-header">
+        <div class="btn-row">
+          <button class="btn-primary" id="start">▶️ Iniciar</button>
+          <button class="btn-ghost" id="pause">⏸️ Pausar</button>
+          <button class="btn-ghost" id="reset">🔄 Reiniciar</button>
+        </div>
+
+        <div class="time-group">
+          <label>Velocitat de simulació: <span id="timeScaleVal">1.00</span>x</label>
+          <input id="timeScale" type="range" min="0.1" max="3" step="0.05" value="1">
+        </div>
+      </div>
+
+      <div class="time-slider-block">
+        <label>Temps (s): <span id="timeLabel">0.00</span></label>
+        <input id="timeSlider" type="range" min="0" max="10" step="0.01" value="0">
+      </div>
+
+      <div class="readouts">
+        <div class="readout-pill">
+          <span class="label">Mode:</span>
+          <span class="value" id="modeLabel">MRU</span>
+          <span class="mode-tag" id="modeTag">a = 0</span>
+        </div>
+        <div class="readout-pill">
+          <span class="label">t=</span>
+          <span class="value" id="tRead">0.00</span> s
+        </div>
+        <div class="readout-pill">
+          <span class="label">x(t)=</span>
+          <span class="value" id="xRead">0.00</span> m
+        </div>
+        <div class="readout-pill">
+          <span class="label">v(t)=</span>
+          <span class="value" id="vRead">0.00</span> m/s
+        </div>
+        <div class="readout-pill">
+          <span class="label">a(t)=</span>
+          <span class="value" id="aRead">0.00</span> m/s²
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔹 Peu de pàgina: línia + imagotip + text -->
+    <div class="footer"></div>
+
+    <div class="logo-footer">
+      <a href="https://www.larrelacademia.cat/" target="_blank" rel="noopener noreferrer">
+        <img src="https://i.ibb.co/PvJdJ31H/IMAGOTIP-FUCSIA.png"
+             alt="L'Arrel Acadèmia - Imagotip fúcsia">
+      </a>
+    </div>
+
+    <div style="text-align:center; margin-top:0; font-size:0.75rem; color:var(--muted);">
+      © <span id="year-mru"></span> L'Arrel Acadèmia · Simuladors educatius
+    </div>
+  </div>
+
+  <script>
+    // Any actual al peu de pàgina
+    document.getElementById('year-mru').textContent = new Date().getFullYear();
+
+    (function() {
+      const x0Input = document.getElementById('x0');
+      const v0Input = document.getElementById('v0');
+      const aInput  = document.getElementById('a');
+      const tMaxInput = document.getElementById('tMax');
+
+      const equationsEl = document.getElementById('equations');
+      const errorEl = document.getElementById('error');
+
+      const xCanvas = document.getElementById('xCanvas');
+      const vCanvas = document.getElementById('vCanvas');
+      const aCanvas = document.getElementById('aCanvas');
+
+      const startBtn = document.getElementById('start');
+      const pauseBtn = document.getElementById('pause');
+      const resetBtn = document.getElementById('reset');
+
+      const timeSlider = document.getElementById('timeSlider');
+      const timeLabel  = document.getElementById('timeLabel');
+
+      const timeScale = document.getElementById('timeScale');
+      const timeScaleVal = document.getElementById('timeScaleVal');
+
+      const tRead = document.getElementById('tRead');
+      const xRead = document.getElementById('xRead');
+      const vRead = document.getElementById('vRead');
+      const aRead = document.getElementById('aRead');
+
+      const modeLabel = document.getElementById('modeLabel');
+      const modeTag   = document.getElementById('modeTag');
+
+      let params = { x0: 0, v0: 0, a: 0, tMax: 10 };
+      let simT = 0;
+      let running = false;
+      let lastTime = null;
+
+      function formatNumber(num, digits = 2) {
+        if (!isFinite(num)) return '∞';
+        const rounded = parseFloat(num.toFixed(digits));
+        if (Number.isInteger(rounded)) return rounded.toString();
+        return rounded.toString();
+      }
+
+      function parseNumber(inputEl, fallback = 0) {
+        const raw = inputEl.value.trim();
+        if (!raw) return fallback;
+        const val = Number(raw.replace(',', '.'));
+        if (!isFinite(val)) return fallback;
+        return val;
+      }
+
+      function updateParams() {
+        errorEl.textContent = '';
+
+        const x0 = parseNumber(x0Input, 0);
+        const v0 = parseNumber(v0Input, 0);
+        const a  = parseNumber(aInput, 0);
+        let tMax = parseNumber(tMaxInput, 10);
+
+        if (tMax <= 0) tMax = 10;
+        if (tMax > 100) tMax = 100;
+        tMaxInput.value = tMax;
+
+        params = { x0, v0, a, tMax };
+
+        timeSlider.max = tMax.toFixed(2);
+        if (simT > tMax) {
+          simT = tMax;
+          timeSlider.value = tMax.toFixed(2);
+        }
+
+        updateEquations();
+      }
+
+      function updateModeTag() {
+        const eps = 1e-10;
+        if (Math.abs(params.a) < eps) {
+          modeLabel.textContent = 'MRU';
+          modeTag.textContent = 'a = 0';
+        } else {
+          modeLabel.textContent = 'MRUA';
+          modeTag.textContent = 'a ≠ 0';
+        }
+      }
+
+      function updateEquations() {
+        updateModeTag();
+
+        const x0 = params.x0;
+        const v0 = params.v0;
+        const a  = params.a;
+
+        const eps = 1e-10;
+        const isMRU = Math.abs(a) < eps;
+
+        function term(value, symbol, powerT = 1) {
+          if (Math.abs(value) < eps) return '';
+          const sign = value < 0 ? '−' : '+';
+          const absVal = Math.abs(value);
+          let coefStr = '';
+          if (Math.abs(absVal - 1) < eps && symbol !== '') {
+            coefStr = '';
+          } else {
+            coefStr = formatNumber(absVal, 3);
+          }
+          let tPart = '';
+          if (powerT === 1) tPart = '·t';
+          else if (powerT === 2) tPart = '·t²';
+
+          if (coefStr === '' && symbol === '') {
+            coefStr = '1';
+          }
+
+          const body = (coefStr ? coefStr + (symbol ? '·' : '') : '') + symbol + tPart;
+          return ' ' + sign + ' ' + body;
+        }
+
+        let xExpr = 'x(t) = ';
+        if (Math.abs(x0) < eps) {
+          xExpr += '0';
+        } else {
+          xExpr += formatNumber(x0, 3);
+        }
+        xExpr += term(v0, '', 1);
+        if (!isMRU) {
+          const halfA = 0.5 * a;
+          xExpr += term(halfA, '', 2);
+        }
+
+        let vExpr = 'v(t) = ';
+        if (isMRU) {
+          vExpr += formatNumber(v0, 3);
+        } else {
+          vExpr += formatNumber(v0, 3);
+          vExpr += term(a, '', 1);
+        }
+
+        const aExpr = 'a(t) = ' + formatNumber(a, 3);
+
+        const tipusText = isMRU
+          ? 'Moviment rectilini uniforme (MRU): l’acceleració és nul·la.'
+          : 'Moviment rectilini uniformement accelerat (MRUA): l’acceleració és constant i diferent de zero.';
+
+        equationsEl.innerHTML = `
+          <h2>Equacions del moviment</h2>
+          <div class="eq-line">
+            <span class="label">Tipus de moviment:</span>
+            <span class="emph">${tipusText}</span>
+          </div>
+          <div class="eq-line">
+            <span class="label">Posició:</span>
+            <span class="value">${xExpr}</span>
+          </div>
+          <div class="eq-line">
+            <span class="label">Velocitat:</span>
+            <span class="value">${vExpr}</span>
+          </div>
+          <div class="eq-line">
+            <span class="label">Acceleració:</span>
+            <span class="value">${aExpr}</span>
+          </div>
+        `;
+      }
+
+      function xOfT(t) {
+        return params.x0 + params.v0 * t + 0.5 * params.a * t * t;
+      }
+      function vOfT(t) {
+        return params.v0 + params.a * t;
+      }
+      function aOfT(t) {
+        return params.a;
+      }
+
+      // 🔹 Escalat híbrid: base mínima + auto per valors grans
+      function drawGraph(canvas, t, func, yLabel) {
+        const ctx = canvas.getContext('2d');
+        const w = canvas.width;
+        const h = canvas.height;
+
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#322d36';
+        ctx.fillRect(0, 0, w, h);
+
+        const marginLeft = 46;
+        const marginRight = 16;
+        const marginTop = 16;
+        const marginBottom = 40;
+
+        const plotWidth = w - marginLeft - marginRight;
+        const plotHeight = h - marginTop - marginBottom;
+
+        let tMax = params.tMax;
+        if (!isFinite(tMax) || tMax <= 0) tMax = 10;
+
+        // 1️⃣ Calculem min i max reals
+        let minY = Infinity;
+        let maxY = -Infinity;
+        const samples = 200;
+        for (let i = 0; i <= samples; i++) {
+          const tt = (i / samples) * tMax;
+          const y = func(tt);
+          if (!isFinite(y)) continue;
+          if (y < minY) minY = y;
+          if (y > maxY) maxY = y;
+        }
+
+        if (minY === Infinity || maxY === -Infinity) {
+          minY = -1;
+          maxY = 1;
+        }
+        if (minY === maxY) {
+          const c = minY;
+          minY = c - 1;
+          maxY = c + 1;
+        }
+
+        if (0 < minY) minY = 0;
+        if (0 > maxY) maxY = 0;
+
+        // 2️⃣ Rang base mínim
+        let baseHalfRange;
+        if (yLabel === 'x') {
+          baseHalfRange = 50;
+        } else if (yLabel === 'v') {
+          baseHalfRange = 20;
+        } else if (yLabel === 'a') {
+          baseHalfRange = 10;
+        } else {
+          baseHalfRange = 10;
+        }
+
+        minY = Math.min(minY, -baseHalfRange);
+        maxY = Math.max(maxY,  baseHalfRange);
+
+        const rangeY = maxY - minY || 1;
+
+        function toX(tt) {
+          return marginLeft + (tt / tMax) * plotWidth;
+        }
+        function toY(yy) {
+          return marginTop + (maxY - yy) * (plotHeight / rangeY);
+        }
+
+        // Graella
+        ctx.strokeStyle = 'rgba(75,85,99,0.30)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 4]);
+
+        const ticksX = chooseTick(tMax);
+        for (let tt = 0; tt <= tMax + 1e-9; tt += ticksX) {
+          const sx = toX(tt) + 0.5;
+          ctx.beginPath();
+          ctx.moveTo(sx, marginTop);
+          ctx.lineTo(sx, h - marginBottom);
+          ctx.stroke();
+        }
+
+        const ticksY = chooseTick(rangeY);
+        const startY = Math.ceil(minY / ticksY) * ticksY;
+        const endY   = Math.floor(maxY / ticksY) * ticksY;
+        for (let yy = startY; yy <= endY + 1e-9; yy += ticksY) {
+          const sy = toY(yy) + 0.5;
+          ctx.beginPath();
+          ctx.moveTo(marginLeft, sy);
+          ctx.lineTo(w - marginRight, sy);
+          ctx.stroke();
+        }
+
+        ctx.setLineDash([]);
+
+        // Eixos
+        ctx.strokeStyle = '#4b5563';
+        ctx.lineWidth = 2.5;
+
+        const y0 = (0 >= minY && 0 <= maxY) ? toY(0) : h - marginBottom;
+        ctx.beginPath();
+        ctx.moveTo(marginLeft, y0);
+        ctx.lineTo(w - marginRight, y0);
+        ctx.stroke();
+
+        const x0 = toX(0);
+        ctx.beginPath();
+        ctx.moveTo(x0, marginTop);
+        ctx.lineTo(x0, h - marginBottom);
+        ctx.stroke();
+
+        // Nombres eix t
+        ctx.fillStyle = '#e5e7eb';
+        ctx.font = '23px system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+
+        for (let tt = 0; tt <= tMax + 1e-9; tt += ticksX) {
+          const sx = toX(tt);
+          ctx.fillText(formatNumber(tt, 0), sx, h - marginBottom + 8);
+        }
+
+        // Nombres eix y
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        for (let yy = startY; yy <= endY + 1e-9; yy += ticksY) {
+          const sy = toY(yy);
+          ctx.fillText(formatNumber(yy, 0), marginLeft - 8, sy);
+        }
+
+        // Corba
+        ctx.strokeStyle = '#f9f8ef';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        let first = true;
+        for (let i = 0; i <= samples; i++) {
+          const tt = (i / samples) * tMax;
+          const y = func(tt);
+          if (!isFinite(y)) continue;
+          const sx = toX(tt);
+          const sy = toY(y);
+          if (first) {
+            ctx.moveTo(sx, sy);
+            first = false;
+          } else {
+            ctx.lineTo(sx, sy);
+          }
+        }
+        ctx.stroke();
+
+        // Punt mòbil
+        const ttNow = Math.min(Math.max(t, 0), tMax);
+        const yNow  = func(ttNow);
+        const sxNow = toX(ttNow);
+        const syNow = toY(yNow);
+
+        ctx.beginPath();
+        ctx.arc(sxNow, syNow, 8, 0, Math.PI * 2);
+        ctx.fillStyle = '#ff3d78';
+        ctx.fill();
+
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = 'rgba(148,163,184,0.6)';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(sxNow, syNow);
+        ctx.lineTo(sxNow, h - marginBottom);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = '#f9f8ef';
+        ctx.font = '23px system-ui, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText(`${yLabel} = ${formatNumber(yNow, 2)}`, sxNow + 8, syNow - 4);
+      }
+
+      function chooseTick(range) {
+        if (!isFinite(range) || range <= 0) return 1;
+        const raw = range / 6;
+        const pow10 = Math.pow(10, Math.floor(Math.log10(raw)));
+        const base = raw / pow10;
+        let step;
+        if (base < 1.5) step = 1;
+        else if (base < 3.5) step = 2;
+        else if (base < 7.5) step = 5;
+        else step = 10;
+        return step * pow10;
+      }
+
+      function updateAll(t) {
+        const tt = Math.min(Math.max(t, 0), params.tMax || 10);
+
+        drawGraph(xCanvas, tt, xOfT, 'x');
+        drawGraph(vCanvas, tt, vOfT, 'v');
+        drawGraph(aCanvas, tt, aOfT, 'a');
+
+        const x = xOfT(tt);
+        const v = vOfT(tt);
+        const a = aOfT(tt);
+
+        tRead.textContent = formatNumber(tt, 2);
+        xRead.textContent = formatNumber(x, 2);
+        vRead.textContent = formatNumber(v, 2);
+        aRead.textContent = formatNumber(a, 2);
+        timeLabel.textContent = formatNumber(tt, 2);
+      }
+
+      function updateTimeScaleLabel() {
+        timeScaleVal.textContent = Number(timeScale.value).toFixed(2);
+      }
+
+      function loop(timestamp) {
+        if (!running) return;
+        if (!lastTime) lastTime = timestamp;
+        const dt = (timestamp - lastTime) / 1000 * Number(timeScale.value);
+        lastTime = timestamp;
+
+        simT += dt;
+        if (simT >= params.tMax) {
+          simT = params.tMax;
+          running = false;
+        }
+
+        timeSlider.value = simT.toFixed(2);
+        updateAll(simT);
+
+        if (running) {
+          requestAnimationFrame(loop);
+        }
+      }
+
+      [x0Input, v0Input, aInput, tMaxInput].forEach(el => {
+        el.addEventListener('change', () => {
+          updateParams();
+          updateAll(simT);
+        });
+        el.addEventListener('input', () => {
+          updateParams();
+          updateAll(simT);
+        });
+      });
+
+      timeScale.addEventListener('input', updateTimeScaleLabel);
+      updateTimeScaleLabel();
+
+      timeSlider.addEventListener('input', (e) => {
+        const val = Number(e.target.value);
+        if (!isFinite(val)) return;
+        simT = val;
+        running = false;
+        updateAll(simT);
+      });
+
+      startBtn.addEventListener('click', () => {
+        updateParams();
+        simT = 0;
+        timeSlider.value = '0';
+        running = true;
+        lastTime = null;
+        requestAnimationFrame(loop);
+      });
+
+      pauseBtn.addEventListener('click', () => {
+        running = false;
+      });
+
+      resetBtn.addEventListener('click', () => {
+        running = false;
+        simT = 0;
+        timeSlider.value = '0';
+        updateAll(0);
+      });
+
+      // Inicialització
+      updateParams();
+      updateAll(0);
+    })();
+  </script>
+</body>
+</html>
