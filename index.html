@@ -442,10 +442,59 @@
         font-size: 0.75rem;
       }
     }
+    
+    /* 🔹 Botón "Inicio" arriba a la derecha */
+.card {
+  position: relative; /* Necesario para posicionar el botón dentro de la tarjeta */
+}
+
+.home-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-btn img {
+  width: 50px;          /* Tamaño del botón INICIO */
+  height: auto;
+  display: block;
+  opacity: 0.95;
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+}
+
+.home-btn:hover img {
+  transform: translateY(-1px);
+  opacity: 1;
+}
+
+/* 🔹 Ajuste en móvil */
+@media (max-width: 768px) {
+  .home-btn {
+    top: 20px;
+    right: 20px;
+  }
+  .home-btn img {
+    width: 44px; /* Ligeramente más pequeño en móvil */
+  }
+}
+
+    
   </style>
 </head>
 <body>
   <div class="card">
+    
+    <!-- 🔹 Botón "Inicio" arriba a la derecha -->
+<a class="home-btn"
+   href="https://larrelacademia.github.io/simuladors/"
+   aria-label="Tornar a l'inici">
+  <img src="https://i.ibb.co/20yJt4Ct/INICI-1.png" alt="Inici">
+</a>
+
 
     <!-- 🔹 Logo L'Arrel Acadèmia -->
     <div class="logo-wrap">
